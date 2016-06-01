@@ -1,6 +1,6 @@
 class ItemsController < ApplicationController
 
-# GET items
+  #GET items
   def index
     @items = Item.where(user_id: params[:user_id])
     render json: @items
@@ -23,14 +23,16 @@ class ItemsController < ApplicationController
     end
   end
 
+  #mark item as completed
   def complete
     @item = Item.find(params[:id])
-    @item.complete == true
+    @item.completed = true
   end
 
+  #mark item as incompleted
   def incomplete
     @item = Item.find(params[:id])
-    @item.complete == false
+    @item.completed = false
   end
 
   #UPDATE items/id

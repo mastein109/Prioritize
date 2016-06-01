@@ -1,16 +1,17 @@
 Rails.application.routes.draw do
-  resources :items
-  resources :users
+  # resources :items
+  resources :users do
+    resources :items, except: [:update, :destroy]
+  end
 
-  patch 'items/:id' => 'items#complete'
-  patch 'items/:id' => 'items#incomplete'
 
-  match 'signup' => 'users#new', :via => :get
-  resources :account, :controller => 'users', :only => [:new, :create]
+  get 'users/:id/items/:id' => 'items#complete'
+  get 'users/:id/items/:id' => 'items#incomplete'
 
-  post 'account/login' => 'users#login'
+  # match 'signup' => 'users#new', :via => :get
+  # resources :account, :controller => 'users', :only => [:new, :create]
 
-  post 'account/authenticate' => 'users#authenticate_user'
+  # post 'account/login' => 'users#login'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

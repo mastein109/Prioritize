@@ -1,7 +1,8 @@
 class UsersController < ApplicationController
 
-  def new
-    @user = User.new
+  def index
+    @users = User.all
+    render json: @users
   end
 
   def create
@@ -27,14 +28,14 @@ class UsersController < ApplicationController
     end
   end
 
-  def authenticate_user
-    user = User.find(user_id_params[:id])
-    if user.nil?
-      render json: {note: "authentication failed"}
-    else
-      render json: {note: "authentication successful"}
-    end
-  end
+  # def authenticate_user
+  #   user = User.find(user_id_params[:id])
+  #   if user.nil?
+  #     render json: {note: "authentication failed"}
+  #   else
+  #     render json: {note: "authentication successful"}
+  #   end
+  # end
 
   private
   def user_params
@@ -45,7 +46,7 @@ class UsersController < ApplicationController
     params.permit(:email, :password)
   end
 
-  def user_id_params
-    params.permit(:id)
-  end
+  # def user_id_params
+  #   params.permit(:id)
+  # end
 end
