@@ -16,7 +16,7 @@ class TodosController < ApplicationController
   # GET /todos
   # GET /todos.json
   def index
-    @todos = Todo.all
+    @todos = current_user.todos
   end
 
   # GET /todos/1
@@ -37,7 +37,7 @@ class TodosController < ApplicationController
   # POST /todos.json
   def create
     @todo = Todo.new(todo_params)
-    @todo.user = current_user       # associate the new todo to the current_user
+    @todo.user = current_user # associate the new todo to the current_user
 
     respond_to do |format|
       if @todo.save
@@ -81,7 +81,7 @@ class TodosController < ApplicationController
     end
 
     def todo_params
-      params.require(:todo).permit(:title, :completed)
+      params.require(:todo).permit(:title, :due_date, :completed)
     end
 
     # def verify_correct_user
