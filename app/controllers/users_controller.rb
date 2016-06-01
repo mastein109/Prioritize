@@ -1,51 +1,80 @@
 class UsersController < ApplicationController
+  before_action :set_user, only: [:show, :edit, :update, :destroy]
+  # GET /users
+  # GET /users.json
+  def index
+    respond_to do |format|
+      format.html { redirect_to root_path }
+      format.json { render :show, status: :created, location: @user }
+    end
+  end
 
+  # GET /users/1
+  # GET /users/1.json
+  def show
+  end
+
+  # GET /users/new
   def new
     @user = User.new
   end
 
+  # GET /users/1/edit
+  def edit
+  end
+
+  # POST /users
+  # POST /users.json
   def create
     @user = User.new(user_params)
 
-    if @user.save
-      render json: { user_id: @user.id, email: @user.email}
-    else
-      render json: { errors: @user.errors}
-    end
-  end
-
-  def login
-    @user = User.find_by(email: login_params[:email])
-    if @user.nil?
-      render json: {message: "Email not found in records"}
-    else
-      if @user.authenticate(login_params[:password])
-        render json: {user_id: @user.id, email: @user.email}
+    respond_to do |format|
+      if @user.save
+        session[:user_id] = @user.id
+        format.html { redirect_to root_path, notice: 'Welcome!' }
+        format.json { render :show, status: :created, location: @user }
       else
-        render json: {errors: "Password incorrect. Login failed."}
+        format.html { render :new }
+        format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end
   end
 
-  def authenticate_user
-    user = User.find(user_id_params[:id])
-    if user.nil?
-      render json: {note: "authentication failed"}
-    else
-      render json: {note: "authentication successful"}
+  # PATCH/PUT /users/1
+  # PATCH/PUT /users/1.json
+  def update
+    respond_to do |format|
+      if @user.update(user_params)
+        format.html { redirect_to @user, notice: 'User was successfully updated.' }
+        format.json { render :show, status: :ok}
+      else
+        format.html { render :edit }
+        format.json { render json: @user.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # DELETE /users/1
+  # DELETE /users/1.json
+  def destroy
+    @user.destroy
+    respond_to do |format|
+      format.html { redirect_to users_url, notice: 'User was successfully destroyed.' }
+      format.json { head :no_content }
     end
   end
 
   private
-  def user_params
-    params.require(:user).permit(:name, :email, :password)
-  end
+    def set_user
+      @user = User.find(params[:id])
+    end
 
-  def login_params
-    params.permit(:email, :password)
-  end
-
-  def user_id_params
-    params.permit(:id)
-  end
+    def user_params
+      params.require(:user).permit(
+                                   :name,
+                                   :email,
+                                   :password,
+                                   :password_confirmation
+                                   )
+    end
 end

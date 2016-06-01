@@ -1,7 +1,7 @@
-class CreateItems < ActiveRecord::Migration
+class CreateTodos < ActiveRecord::Migration
   def change
-    create_table :items do |t|
-      t.text :description
+    create_table :todos do |t|
+      t.string :title
       t.datetime :due_date
       t.boolean :completed, default: false
       t.references :user, index: true
