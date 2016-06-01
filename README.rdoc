@@ -1,10 +1,13 @@
 == README
 
-#Web Service for Managing TODO lists
+== Web Service for Managing TODO lists
 
-* Through API
-** create new todo item for a given user
-** mark todo item as complete
-** retrieve todo items for a given user
+Through API:
+* create new todo item for a given user
+* mark todo item as complete
+* retrieve todo items for a given user
+
+
+
 
 created by Mollie Stein
