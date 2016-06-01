@@ -5,8 +5,8 @@ Rails.application.routes.draw do
   end
 
 
-  get 'users/:id/items/:id' => 'items#complete'
-  get 'users/:id/items/:id' => 'items#incomplete'
+  # get 'users/:id/items/:id' => 'items#complete'
+  # get 'users/:id/items/:id' => 'items#incomplete'
 
   # match 'signup' => 'users#new', :via => :get
   # resources :account, :controller => 'users', :only => [:new, :create]
